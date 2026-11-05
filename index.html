@@ -1,0 +1,121 @@
+<!DOCTYPE html><html lang='th'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1,viewport-fit=cover'><meta name='theme-color' content='#0b5d44'><meta name='apple-mobile-web-app-capable' content='yes'><title>เวลาละหมาด & ทิศกิบลัต</title>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&display=swap'>
+<style>
+:root{color-scheme:light dark;--bg:#f2f6f4;--card:#fff;--tx:#10241b;--mu:#62766c;--ac:#0e7a52;--ac2:#d9a441;--bd:#e0e9e4;--hl:#e2f4eb}
+@media(prefers-color-scheme:dark){:root{--bg:#09130f;--card:#12221b;--tx:#e8f2ec;--mu:#8fa69a;--ac:#3ecf8e;--bd:#223a2f;--hl:#18382a}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--tx);font:400 16px/1.5 'Noto Sans Thai',system-ui,sans-serif;padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+main{max-width:520px;margin:0 auto}.tab{display:none;padding:0 16px 16px}.tab.on{display:block}
+.hero{margin:0 -16px 14px;padding:calc(18px + env(safe-area-inset-top)) 20px 24px;background:linear-gradient(160deg,#0f8a5f,#064a37);color:#fff;border-radius:0 0 28px 28px;text-align:center}
+.hero .loc{font-weight:600}.hero .dts{opacity:.85;font-size:.85rem}
+.ringw{position:relative;width:230px;height:230px;margin:14px auto 0}.ringw svg{width:100%;height:100%;display:block}
+.rb{fill:none;stroke:rgba(255,255,255,.2);stroke-width:7}.rf{fill:none;stroke:#f5d77a;stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset 1s linear}
+.rc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}.rc small{opacity:.8}.rc b{font-size:1.7rem;line-height:1.2}.cd{font-size:1.9rem;font-weight:700;font-variant-numeric:tabular-nums}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:12px 14px;margin-top:12px}
+.pt{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-radius:12px;color:var(--mu);font-size:.9rem}.pt i{font-style:normal;font-size:.8rem;margin-left:8px;opacity:.8}
+.pt.m{color:var(--tx);font-size:1.05rem;padding:12px 10px}.pt.m b{font-size:1.2rem}.pt b{font-variant-numeric:tabular-nums}.pt.past{opacity:.45}.pt.on{background:var(--hl);color:var(--ac);font-weight:700;opacity:1}
+.note,.sub{color:var(--mu);font-size:.8rem}.note{text-align:center;margin:14px 6px}
+h2{font-size:1.1rem;margin:18px 0 4px}
+button,select,input{font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:9px 12px}
+button.p{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:600}
+.f{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd)}.f:last-child{border:0}.f select{max-width:60%}.f input[type=number]{width:72px;text-align:center}
+.adj{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;text-align:center;font-size:.75rem;color:var(--mu);padding-top:8px}.adj input{width:100%;padding:8px 2px;text-align:center}
+#cw{display:block;margin:6px auto;width:min(84vw,300px);height:auto}.t{stroke:var(--mu)}
+.q{text-align:center;margin-top:6px}.q.ok{color:var(--ac);font-weight:700}
+.gr{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:10px;text-align:center}.gr div{padding:4px 0;border-radius:10px;font-size:.9rem;position:relative}.gr .h{color:var(--mu);font-size:.75rem}.gr small{display:block;font-size:.65rem;color:var(--mu)}.gr .td{outline:2px solid var(--ac)}.gr .ev{background:var(--hl)}.gr .ev::after{content:'';position:absolute;right:4px;top:4px;width:6px;height:6px;border-radius:50%;background:var(--ac2)}.gr .fr{color:var(--ac);font-weight:700}
+.evi{display:flex;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid var(--bd);font-size:.9rem}.evi span:last-child{color:var(--mu);text-align:right;white-space:nowrap}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:color-mix(in srgb,var(--card) 88%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;border:0;background:none;color:var(--mu);padding:8px 0 6px;font-size:.72rem;border-radius:0}nav button span{display:block;font-size:1.3rem}nav button.on{color:var(--ac);font-weight:600}
+</style></head><body><main>
+<section id='t-time' class='tab on'><div class='hero'><div class='loc' id='loc'></div><div class='dts' id='dts'></div><div class='ringw'><svg viewBox='0 0 120 120'><circle class='rb' cx='60' cy='60' r='54'/><circle id='rp' class='rf' cx='60' cy='60' r='54' transform='rotate(-90 60 60)' stroke-dasharray='339.3' stroke-dashoffset='339.3'/></svg><div class='rc'><small>ละหมาดถัดไป</small><b id='nn'></b><div id='nt'></div><div class='cd' id='cd'></div></div></div></div>
+<div class='card' id='list'></div><p class='note'>คำนวณทางดาราศาสตร์ตามพิกัด (เวลาไทย UTC+7 เมื่ออยู่ในไทย) ควรเทียบกับตารางของสำนักจุฬาราชมนตรี/มัสยิดในพื้นที่ แล้วปรับเทียบที่แท็บ ตั้งค่า</p></section>
+<section id='t-qibla' class='tab' style='display:none'><h2 style='text-align:center'>🧭 ทิศกิบลัต</h2><div class='card'><svg id='cw' viewBox='0 0 200 215'><path d='M100 16 L92 4 L108 4Z' fill='var(--ac2)'/><g id='dial' style='transform-origin:100px 115px'><circle cx='100' cy='115' r='86' fill='var(--bg)' stroke='var(--bd)' stroke-width='2'/><g id='ticks'></g><text x='100' y='42' text-anchor='middle' font-size='13' font-weight='700' fill='#d33'>N</text><text x='184' y='120' text-anchor='middle' font-size='11' fill='var(--mu)'>E</text><text x='100' y='196' text-anchor='middle' font-size='11' fill='var(--mu)'>S</text><text x='16' y='120' text-anchor='middle' font-size='11' fill='var(--mu)'>W</text><g id='qb' style='transform-origin:100px 115px'><line x1='100' y1='115' x2='100' y2='52' stroke='var(--ac)' stroke-width='4' stroke-linecap='round'/><text x='100' y='50' text-anchor='middle' font-size='20'>🕋</text></g></g><circle cx='100' cy='115' r='6' fill='var(--ac)'/></svg>
+<div class='q' id='qt'></div><div class='q sub' id='hdg'></div><div style='text-align:center;margin-top:10px'><button class='p' id='cmp'>เปิดเข็มทิศ</button></div><input type='range' id='mh' min='0' max='359' value='0' style='display:none;width:100%;margin-top:10px'><p class='note' id='ch'>ถือเครื่องให้ขนานพื้น ห่างจากโลหะ/แม่เหล็ก แล้วหมุนตัวจนลูกศรสีเขียวและ 🕋 ชี้ขึ้นด้านบน หากค่าเพี้ยน ให้โบกเครื่องเป็นเลข 8 เพื่อปรับเทียบ</p></div></section>
+<section id='t-cal' class='tab' style='display:none'><h2>📅 ปฏิทินอิสลาม</h2><div class='card'><div id='hj' style='font-size:1.15rem;color:var(--ac);font-weight:600;text-align:center'></div><div style='display:flex;align-items:center;gap:8px;margin-top:10px'><button id='pm'>‹</button><div id='mt' style='flex:1;text-align:center;font-weight:600'></div><button id='nm'>›</button></div><div id='gr' class='gr'></div><p class='sub'>เลขเล็ก = วันที่ฮิจเราะห์ (อุมมุลกุรอ) · จุดทอง = วันสำคัญ · ตัวหนาเขียว = วันศุกร์ วันจริงในไทยตามประกาศจุฬาราชมนตรีอาจต่าง ±1 วัน ปรับที่แท็บ ตั้งค่า</p></div><h2>วันสำคัญที่จะถึง</h2><div class='card' id='ev'></div></section>
+<section id='t-set' class='tab' style='display:none'><h2>⚙️ ตั้งค่า</h2><div class='card'><div class='f'><span>ตำแหน่ง</span><button class='p' id='gps'>📍 ใช้ GPS</button></div><div class='sub' id='gs'></div><div class='f'><span>หรือเลือกจังหวัด</span><select id='prov'></select></div></div>
+<div class='card'><div class='f'><span>วิธีคำนวณ</span><select id='mth'><option value='th'>แนวสภาไทย (กำหนดองศาเอง)</option><option value='mwl'>MWL 18°/17°</option><option value='isna'>ISNA 15°/15°</option><option value='egy'>อียิปต์ 19.5°/17.5°</option><option value='uq'>อุมมุลกุรอ 18.5°/+90น.</option></select></div><div class='f' id='ang'><span>องศาซุบฮิ์ / อิชาอ์</span><span><input id='fa' type='number' step='0.5'> <input id='ia' type='number' step='0.5'></span></div><div class='f'><span>อัสริ</span><select id='asr'><option value='1'>ซาฟีอี (เงา 1 เท่า)</option><option value='2'>ฮานาฟี (เงา 2 เท่า)</option></select></div><div class='sub' style='padding-top:8px'>ปรับเวลาเผื่อ (นาที, ลบ = เร็วขึ้น)</div><div class='adj'><div>ซุบฮิ์<input id='a0' type='number'></div><div>ซุฮรี<input id='a1' type='number'></div><div>อัสริ<input id='a2' type='number'></div><div>มัฆริบ<input id='a3' type='number'></div><div>อิชาอ์<input id='a4' type='number'></div></div></div>
+<div class='card'><div class='f'><span>ปรับวันที่ฮิจเราะห์</span><select id='ho'><option value='-1'>−1 วัน</option><option value='0'>±0</option><option value='1'>+1 วัน</option></select></div><div class='f'><span>แจ้งเตือนเมื่อถึงเวลา<br><small class='sub'>ทำงานเมื่อเปิดหน้านี้ค้างไว้</small></span><input id='nt' type='checkbox'></div></div><p class='note'>ค่าที่ตั้งจะถูกจำไว้ในเครื่องนี้ · อิมซาก = ก่อนซุบฮิ์ 10 นาที · ฎุฮา = หลังตะวันขึ้น 12 นาที · เที่ยงคืน และช่วง 1/3 สุดท้ายของคืน คำนวณจากมัฆริบถึงซุบฮิ์วันถัดไป</p></section></main>
+<nav><button class='on' data-t='time'><span>🕌</span>เวลาละหมาด</button><button data-t='qibla'><span>🧭</span>กิบลัต</button><button data-t='cal'><span>📅</span>ปฏิทิน</button><button data-t='set'><span>⚙️</span>ตั้งค่า</button></nav>
+<script>
+const $=i=>document.getElementById(i),R=Math.PI/180,sin=d=>Math.sin(d*R),cos=d=>Math.cos(d*R),pad=n=>String(n).padStart(2,'0');
+const PV=[['กรุงเทพมหานคร',13.7563,100.5018],['เชียงใหม่',18.7883,98.9853],['เชียงราย',19.9072,99.8309],['ลำปาง',18.29,99.49],['พิษณุโลก',16.8211,100.2659],['นครสวรรค์',15.70,100.14],['ตาก (แม่สอด)',16.72,98.57],['ขอนแก่น',16.4322,102.8236],['อุดรธานี',17.41,102.79],['นครพนม',17.41,104.78],['สกลนคร',17.16,104.15],['นครราชสีมา',14.9799,102.0977],['สุรินทร์',14.88,103.49],['อุบลราชธานี',15.2287,104.8564],['อยุธยา',14.3532,100.5689],['ลพบุรี',14.80,100.65],['สุพรรณบุรี',14.47,100.12],['ปทุมธานี',14.0208,100.525],['นนทบุรี',13.86,100.52],['สมุทรปราการ',13.60,100.60],['ชลบุรี',13.3611,100.9847],['ระยอง',12.68,101.28],['จันทบุรี',12.61,102.10],['ตราด',12.24,102.52],['กาญจนบุรี',14.02,99.53],['ราชบุรี',13.53,99.82],['เพชรบุรี',13.11,99.94],['ประจวบคีรีขันธ์',11.8126,99.7957],['ชุมพร',10.4930,99.1800],['ระนอง',9.9528,98.6085],['สุราษฎร์ธานี',9.1382,99.3217],['พังงา',8.4501,98.5300],['ภูเก็ต',7.8804,98.3923],['กระบี่',8.0863,98.9063],['นครศรีธรรมราช',8.4304,99.9631],['ตรัง',7.5563,99.6114],['พัทลุง',7.6167,100.0774],['สตูล',6.6238,100.0674],['สงขลา (หาดใหญ่)',7.0086,100.4747],['ปัตตานี',6.8696,101.2501],['ยะลา',6.5413,101.2804],['นราธิวาส',6.4255,101.8253]].sort((a,b)=>a[0].localeCompare(b[0],'th'));
+const PRE={mwl:{f:18,i:17},isna:{f:15,i:15},egy:{f:19.5,i:17.5},uq:{f:18.5,im:90}},MK=[21.4225,39.8262];
+const NM={fajr:'ซุบฮิ์',dhuhr:'ซุฮรี',asr:'อัสริ',maghrib:'มัฆริบ',isha:'อิชาอ์'};
+const ROWS=[['imsak','อิมซาก (งดอาหาร)'],['fajr','ซุบฮิ์','الفجر',1],['sunrise','ตะวันขึ้น'],['duha','ฎุฮา (เริ่ม)'],['dhuhr','ซุฮรี','الظهر',1],['asr','อัสริ','العصر',1],['maghrib','มัฆริบ','المغرب',1],['isha','อิชาอ์','العشاء',1],['mid','เที่ยงคืนตามหลักศาสนา'],['third','ช่วง 1/3 สุดท้ายของคืน']];
+let S={name:'กรุงเทพมหานคร',lat:13.7563,lng:100.5018,p:'กรุงเทพมหานคร',tz:7,m:'th',fa:18,ia:18,asr:1,adj:[0,0,0,0,0],ho:0,nt:false};
+try{Object.assign(S,JSON.parse(localStorage.getItem('pt')||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem('pt',JSON.stringify(S))}catch(e){}};
+function times(y,mo,d,lat,lng,tz,m,af){
+ const jd=Date.UTC(y,mo,d)/864e5+2440587.5-lng/360;
+ const sp=t=>{const D=jd+t/24-2451545,g=(357.529+.98560028*D)%360,q=(280.459+.98564736*D)%360,L=(q+1.915*sin(g)+.02*sin(2*g))%360,e=23.439-3.6e-7*D;let ra=Math.atan2(cos(e)*sin(L),cos(L))/R/15;ra=((ra%24)+24)%24;let eq=((q/15-ra)%24+24)%24;if(eq>12)eq-=24;return{eq,dc:Math.asin(sin(e)*sin(L))/R}};
+ const noon=t=>12-sp(t).eq;
+ const at=(a,t,ccw)=>{const dc=sp(t).dc,v=(-sin(a)-sin(dc)*sin(lat))/(cos(dc)*cos(lat));if(v<-1||v>1)return NaN;const T=Math.acos(v)/R/15;return noon(t)+(ccw?-T:T)};
+ const dc=sp(13).dc,asrA=-Math.atan(1/(af+Math.tan(Math.abs(lat-dc)*R)))/R,mg=at(.833,18,false);
+ const r={fajr:at(m.f,5,true),sunrise:at(.833,6,true),dhuhr:noon(12)+.0167,asr:at(asrA,13,false),maghrib:mg,isha:m.im?mg+m.im/60:at(m.i,18,false)};
+ for(const k in r)r[k]+=tz-lng/15;return r}
+const TZ=()=>S.tz||7,lab=ms=>{const d=new Date(ms+TZ()*36e5);return pad(d.getUTCHours())+':'+pad(d.getUTCMinutes())};
+function day(o){const z=new Date(Date.now()+TZ()*36e5),y=z.getUTCFullYear(),mo=z.getUTCMonth(),d=z.getUTCDate()+o,m=S.m==='th'?{f:S.fa,i:S.ia}:PRE[S.m],t=times(y,mo,d,S.lat,S.lng,TZ(),m,+S.asr),ms=h=>Date.UTC(y,mo,d)+(h-TZ())*36e5,a=S.adj;
+ const T={imsak:ms(t.fajr)-6e5,fajr:ms(t.fajr)+a[0]*6e4,sunrise:ms(t.sunrise),duha:ms(t.sunrise)+72e4,dhuhr:ms(t.dhuhr)+a[1]*6e4,asr:ms(t.asr)+a[2]*6e4,maghrib:ms(t.maghrib)+a[3]*6e4,isha:ms(t.isha)+a[4]*6e4};
+ for(const k in T)T[k]=Math.round(T[k]/6e4)*6e4;return T}
+function thDate(){const z=new Date(Date.now()+TZ()*36e5);return new Date(z.getUTCFullYear(),z.getUTCMonth(),z.getUTCDate())}
+const HM=['มุฮัรรอม','ซอฟัร','รอบีอุลเอาวัล','รอบีอุลอาคิร','ญุมาดัลอูลา','ญุมาดัลอาคิเราะห์','รอญับ','ชะอ์บาน','เราะมะฎอน','เชาวาล','ซุลเกาะอ์ดะฮ์','ซุลฮิจญะฮ์'];
+const EV={'1-1':'ปีใหม่อิสลาม','10-1':'วันอาชูรออ์ (สุนนะฮ์ถือศีลอด)','12-3':'วันเมาลิดนบีมุฮัมมัด ﷺ','27-7':'อิสรออ์และมิอ์รอจ','15-8':'คืนนิสฟุชชะอ์บาน','1-9':'เริ่มถือศีลอดเราะมะฎอน','17-9':'นุซูลุลกุรอาน','27-9':'ลัยละตุลก็อดร์ (ที่เชื่อกันทั่วไป)','1-10':'วันอีดิลฟิตริ','9-12':'วันอะเราะฟะฮ์','10-12':'วันอีดิลอัฎฮา','11-12':'วันตัชรีก (11–13)'};
+const HF=new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn',{day:'numeric',month:'numeric',year:'numeric'});
+function hj(d){const x=new Date(d.getFullYear(),d.getMonth(),d.getDate()+(+S.ho),12),p=Object.fromEntries(HF.formatToParts(x).map(o=>[o.type,o.value]));return{d:+p.day,m:+p.month,y:parseInt(p.year)}}
+let lastN='';function notify(T,now){if(!S.nt||!window.Notification||Notification.permission!=='granted')return;for(const k in NM)if(now>=T[k]&&now-T[k]<2500&&lastN!==k+T[k]){lastN=k+T[k];try{new Notification('ถึงเวลาละหมาด'+NM[k],{body:lab(T[k])+' น. · '+S.name});navigator.vibrate&&navigator.vibrate(200)}catch(e){}}}
+function render(){
+ const now=Date.now(),T=day(0),T1=day(1),Y=day(-1),P=Object.keys(NM);let k=P.find(x=>T[x]>now),nx,pv;
+ if(k){nx=T[k];const i=P.indexOf(k);pv=i?T[P[i-1]]:Y.isha}else{k='fajr';nx=T1.fajr;pv=T.isha}
+ const s=Math.max(0,Math.floor((nx-now)/1000)),h=hj(thDate());
+ $('loc').textContent='📍 '+S.name;
+ $('dts').textContent=thDate().toLocaleDateString('th-TH',{weekday:'long',day:'numeric',month:'long',year:'numeric'})+' · '+h.d+' '+HM[h.m-1]+' '+h.y;
+ $('nn').textContent=NM[k];$('nt').textContent=lab(nx)+' น.';
+ $('cd').textContent=pad(s/3600|0)+':'+pad(s%3600/60|0)+':'+pad(s%60);
+ $('rp').style.strokeDashoffset=339.3*(1-Math.min(1,Math.max(0,(now-pv)/(nx-pv))));
+ const ni=T1.fajr-T.maghrib,X=Object.assign({},T,{mid:T.maghrib+ni/2,third:T.maghrib+ni*2/3});
+ $('list').innerHTML=ROWS.map(([id,n,a,m])=>`<div class='pt ${m?'m':''} ${id===k?'on':''} ${m&&X[id]<now&&id!==k?'past':''}'><span>${n}${a?`<i>${a}</i>`:''}</span><b>${isNaN(X[id])?'--:--':lab(X[id])}</b></div>`).join('');
+ notify(T,now)}
+let qibla=0;
+function qcalc(){qibla=((Math.atan2(sin(MK[1]-S.lng),cos(S.lat)*Math.tan(MK[0]*R)-sin(S.lat)*cos(MK[1]-S.lng))/R)+360)%360;
+ const dl=(MK[0]-S.lat)*R,dn=(MK[1]-S.lng)*R,a=Math.sin(dl/2)**2+Math.cos(S.lat*R)*Math.cos(MK[0]*R)*Math.sin(dn/2)**2,km=Math.round(12742*Math.asin(Math.sqrt(a)));
+ $('qt').innerHTML='ทิศกิบลัต <b>'+qibla.toFixed(1)+'°</b> จากทิศเหนือ (ตามเข็มนาฬิกา) · ห่างมักกะฮ์ ~'+km.toLocaleString('th-TH')+' กม.';$('qb').style.transform='rotate('+qibla+'deg)'}
+function setLoc(lat,lng,name,p){const th=lat>5&&lat<21&&lng>97&&lng<106;Object.assign(S,{lat,lng,name,p,tz:th?7:-new Date().getTimezoneOffset()/60});save();qcalc();render()}
+function nearest(lat,lng){let b=PV[0],bd=1e9;for(const p of PV){const d=(p[1]-lat)**2+((p[2]-lng)*cos(lat))**2;if(d<bd){bd=d;b=p}}return{p:b,km:Math.sqrt(bd)*111}}
+$('prov').add(new Option('— ตำแหน่งจาก GPS —',''));PV.forEach(p=>$('prov').add(new Option(p[0],p[0])));
+function fill(){$('prov').value=S.p||'';$('mth').value=S.m;$('asr').value=S.asr;$('fa').value=S.fa;$('ia').value=S.ia;$('ho').value=S.ho;$('nt').checked=S.nt;S.adj.forEach((v,i)=>$('a'+i).value=v);$('ang').style.display=S.m==='th'?'':'none'}
+function apply(){S.m=$('mth').value;S.asr=+$('asr').value;S.fa=+$('fa').value||18;S.ia=+$('ia').value||18;S.ho=+$('ho').value;S.adj=[0,1,2,3,4].map(i=>+$('a'+i).value||0);save();$('ang').style.display=S.m==='th'?'':'none';render();renderCal()}
+document.querySelectorAll('#t-set input[type=number],#mth,#asr,#ho').forEach(e=>e.onchange=apply);
+$('prov').onchange=e=>{const p=PV.find(x=>x[0]===e.target.value);if(p){setLoc(p[1],p[2],p[0],p[0]);S.tz=7;save();$('gs').textContent='';render()}};
+$('nt').onchange=async e=>{if(e.target.checked){let r='denied';try{r=await Notification.requestPermission()}catch(x){}if(r!=='granted'){e.target.checked=false;$('gs').textContent='เบราว์เซอร์ไม่อนุญาตการแจ้งเตือน'}}S.nt=e.target.checked;save()};
+$('gps').onclick=()=>{const st=$('gs');if(!navigator.geolocation){st.textContent='เบราว์เซอร์นี้ไม่รองรับการระบุตำแหน่ง';return}
+ st.textContent='กำลังค้นหาตำแหน่ง...';
+ navigator.geolocation.getCurrentPosition(p=>{const la=p.coords.latitude,ln=p.coords.longitude,n=nearest(la,ln);setLoc(la,ln,(n.km<120?'ใกล้ '+n.p[0]:'ตำแหน่งปัจจุบัน')+' ('+la.toFixed(2)+', '+ln.toFixed(2)+')','');$('prov').value='';
+  st.textContent='✅ ใช้ตำแหน่งปัจจุบันแล้ว (คลาดเคลื่อน ~'+Math.round(p.coords.accuracy)+' ม.)'+(S.tz!==7?' · อยู่นอกไทย ใช้เวลาตามนาฬิกาเครื่อง':'')},
+ e=>{st.textContent=e.code===1?'ไม่ได้รับอนุญาต: เปิดสิทธิ์ตำแหน่งของเว็บนี้ในตั้งค่าเบราว์เซอร์/ระบบ แล้วลองใหม่ หรือเลือกจังหวัดแทน':e.code===3?'หมดเวลา ลองใหม่อีกครั้ง':'หาตำแหน่งไม่ได้ ลองเปิด GPS หรือไปที่โล่ง';if(!isSecureContext)st.textContent+=' (ต้องเปิดผ่าน HTTPS)'},{enableHighAccuracy:true,timeout:20000,maximumAge:300000})};
+let cv=new Date();cv=new Date(cv.getFullYear(),cv.getMonth(),1);
+function renderCal(){const t=thDate(),h=hj(t),y=cv.getFullYear(),m=cv.getMonth();
+ $('hj').textContent='วันนี้ '+h.d+' '+HM[h.m-1]+' '+h.y+' ฮ.ศ.';$('mt').textContent=cv.toLocaleDateString('th-TH',{month:'long',year:'numeric'});
+ let html=['อา','จ','อ','พ','พฤ','ศ','ส'].map(s=>`<div class='h'>${s}</div>`).join('')+'<div></div>'.repeat(new Date(y,m,1).getDay());
+ for(let i=1,n=new Date(y,m+1,0).getDate();i<=n;i++){const dt=new Date(y,m,i),q=hj(dt),e=EV[q.d+'-'+q.m];html+=`<div class='${[e?'ev':'',dt.getTime()===t.getTime()?'td':'',dt.getDay()===5?'fr':''].join(' ')}'>${i}<small>${q.d}</small></div>`}
+ $('gr').innerHTML=html;const out=[];
+ for(let k=0;k<400&&out.length<8;k++){const dt=new Date(t.getFullYear(),t.getMonth(),t.getDate()+k),q=hj(dt),e=EV[q.d+'-'+q.m];if(e)out.push([e,dt,q,k])}
+ $('ev').innerHTML=out.map(([e,dt,q,k])=>`<div class='evi'><span>${e}<br><small class='sub'>${q.d} ${HM[q.m-1]}</small></span><span>${dt.toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'2-digit'})}<br>${k?'อีก '+k+' วัน':'วันนี้'}</span></div>`).join('')}
+$('pm').onclick=()=>{cv.setMonth(cv.getMonth()-1);renderCal()};$('nm').onclick=()=>{cv.setMonth(cv.getMonth()+1);renderCal()};
+(function(){let h='';for(let i=0;i<72;i++){const l=i%9===0?8:i%3===0?5:3;h+=`<line class='t' x1='100' y1='29' x2='100' y2='${29+l}' transform='rotate(${i*5} 100 115)' stroke-width='1'/>`}$('ticks').innerHTML=h})();
+let hd=null,sawAny=false,useRel=false;
+function draw(){if(hd==null)return;$('dial').style.transform='rotate('+(-hd)+'deg)';const diff=Math.abs(((qibla-hd+540)%360)-180),ok=diff<=5;$('qt').classList.toggle('ok',ok);
+ $('hdg').textContent='เครื่องหัน '+Math.round(hd)+'° · '+(ok?'✅ ตรงทิศกิบลัตแล้ว':'ต้องหมุนอีก '+Math.round(diff)+'°');
+ if(ok&&navigator.vibrate&&!draw.v){navigator.vibrate(60);draw.v=1}if(!ok)draw.v=0}
+function tilt(e){const a=e.alpha*R,b=e.beta*R,g=e.gamma*R,cA=Math.cos(a),sA=Math.sin(a),sB=Math.sin(b),cG=Math.cos(g),sG=Math.sin(g),rA=-cA*sG-sA*sB*cG,rB=-sA*sG+cA*sB*cG;let h=Math.atan(rA/rB);if(rB<0)h+=Math.PI;else if(rA<0)h+=2*Math.PI;return(h/R+(screen.orientation?screen.orientation.angle:0)+360)%360}
+function onO(e){sawAny=true;let v=null;const ok=e.alpha!=null&&e.beta!=null&&e.gamma!=null;
+ if(e.webkitCompassHeading!=null)v=e.webkitCompassHeading;else if(ok&&(e.absolute||e.type==='deviceorientationabsolute'||useRel))v=tilt(e);
+ if(v==null)return;if(hd==null)hd=v;else{const d=((v-hd+540)%360)-180;hd=(hd+d*.25+360)%360}draw()}
+$('mh').oninput=e=>{hd=+e.target.value;draw()};
+$('cmp').onclick=async()=>{try{
+ if(typeof DeviceOrientationEvent!=='undefined'&&DeviceOrientationEvent.requestPermission){const r=await DeviceOrientationEvent.requestPermission();if(r!=='granted'){$('ch').textContent='ไม่ได้รับอนุญาตใช้เซนเซอร์ — ปิดแท็บแล้วเปิดใหม่ จากนั้นกดอนุญาต หรือใช้แถบเลื่อนด้านล่าง';$('mh').style.display='block';return}}
+ addEventListener('deviceorientationabsolute',onO,true);addEventListener('deviceorientation',onO,true);$('cmp').textContent='เข็มทิศเปิดอยู่';$('ch').textContent='กำลังอ่านเข็มทิศ... ถือเครื่องให้ขนานพื้น';
+ setTimeout(()=>{if(hd!=null)return;if(sawAny){useRel=true;$('ch').textContent='เซนเซอร์ไม่ให้ทิศเหนือจริง ค่าอาจคลาดเคลื่อน ใช้แถบเลื่อนช่วยได้'}else $('ch').textContent='อ่านเซนเซอร์ไม่ได้ (เครื่องอาจไม่มีเข็มทิศ หรือเบราว์เซอร์ปิดสิทธิ์) ใช้แถบเลื่อนให้ตรงกับทิศที่หันอยู่ โดยดูจากเข็มทิศอื่น';$('mh').style.display='block'},2500)
+}catch(e){$('ch').textContent='เครื่องนี้ไม่รองรับเข็มทิศ ใช้องศากิบลัตด้านบนอ้างอิงกับเข็มทิศอื่นแทน';$('mh').style.display='block'}};
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.tab').forEach(s=>{s.style.display=s.id==='t-'+b.dataset.t?'block':'none'});if(b.dataset.t==='cal')renderCal();scrollTo(0,0)});
+fill();qcalc();render();renderCal();setInterval(render,1000);
+</script></body></html>
